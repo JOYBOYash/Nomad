@@ -1,0 +1,376 @@
+# NOMAD — App Context Document
+
+---
+
+# 1. Overview
+
+NOMAD is a live event engagement platform that enhances participation during hackathons, conferences, festivals, and student-led events.
+
+Every user has a single account.
+
+With the same account, a user can:
+
+* Create and manage events
+* Join and participate in events
+* Complete missions
+* Earn tokens
+* Redeem rewards
+* Receive a participation confirmation badge
+
+There are no global roles such as “participant” or “organiser.”
+
+Permissions are determined per event.
+
+If a user creates an event, they become that event’s owner and can manage it.
+
+If a user joins an event, they participate in it.
+
+---
+
+# 2. User Model
+
+Each user has:
+
+* Profile information
+* List of events they created
+* List of events they joined
+* Participation badges earned
+
+A single user can:
+
+* Create Event A
+* Join Event B
+* Participate in Event C
+* Manage Event A
+* Earn badge from Event B
+
+All within the same account.
+
+---
+
+# 3. Event Ownership Model
+
+Each event has:
+
+* One creator (event owner)
+* Multiple participants
+
+Event ownership grants permission to:
+
+* Edit event details
+* Add zones
+* Add sponsors
+* Create missions
+* Manage rewards
+* Monitor engagement
+* End the event
+
+Participants cannot modify event structure.
+
+---
+
+# 4. Core User Capabilities
+
+Every user can:
+
+* Sign in
+* View events
+* Create new event
+* Join existing event
+* Participate in joined events
+* View badges
+
+Permissions depend on relationship to event.
+
+---
+
+# 5. Event Lifecycle
+
+Each event has a lifecycle:
+
+1. Draft
+2. Live
+3. Ended
+
+Only Live events are joinable.
+
+Only Ended events can issue participation confirmation badges.
+
+---
+
+# 6. Features When Creating an Event (Event Owner Mode)
+
+When a user creates an event, they gain management controls for that event only.
+
+They can:
+
+## 6.1 Create Event
+
+* Set event name
+* Set description
+* Set dates
+* Upload event map
+* Save as Draft
+* Set to Live
+* End event
+
+---
+
+## 6.2 Manage Event Structure
+
+They can define:
+
+### Zones
+
+* Add zones (Stage, Booth, Workshop, Area)
+* Set zone names
+* Define map placement
+* Attach sponsor to zone
+
+### Sponsors
+
+* Add sponsor name
+* Add logo
+* Add sponsor description
+* Link sponsor to zones
+
+---
+
+## 6.3 Create Missions
+
+Event owner can:
+
+* Create mission
+* Assign to zone
+* Set mission description
+* Set reward token amount
+* Define availability window
+* Activate/deactivate mission
+
+Missions are what participants complete.
+
+---
+
+## 6.4 Manage Rewards
+
+Event owner can:
+
+* Create rewards
+* Set token cost
+* Set inventory count
+* View redemptions
+* Approve or verify reward claims
+
+---
+
+## 6.5 Monitor Engagement
+
+Event owner can view:
+
+* Number of joined participants
+* Mission completion stats
+* Tokens distributed
+* Reward redemptions
+* Leaderboard standings
+* Engagement per zone
+
+---
+
+## 6.6 End Event
+
+When owner ends event:
+
+* Missions lock
+* Leaderboard locks
+* Participation eligibility calculated
+* Participation confirmation badges issued
+* Event becomes archived
+
+---
+
+# 7. Features When Joining an Event (Participant Mode)
+
+When a user joins an event, they gain participant features for that event.
+
+They can:
+
+---
+
+## 7.1 Event Dashboard
+
+* View event details
+* View token balance
+* View mission progress
+* View leaderboard position
+* Access rewards
+* View participation badge status
+
+---
+
+## 7.2 Missions
+
+User can:
+
+* View assigned missions
+* Complete missions
+* Earn tokens
+* See mission completion status
+
+Missions are created by event owner.
+
+---
+
+## 7.3 Token Wallet
+
+User can:
+
+* View token balance for event
+* View transaction history
+* Spend tokens on rewards
+
+Tokens are event-specific.
+
+---
+
+## 7.4 Leaderboard
+
+User can:
+
+* View ranked list
+* See their position
+* See top participants
+
+Leaderboard is calculated based on engagement.
+
+---
+
+## 7.5 Rewards
+
+User can:
+
+* Browse rewards
+* Redeem rewards
+* See reward status
+
+---
+
+## 7.6 Participation Confirmation Badge
+
+After event ends:
+
+* If user joined event
+* And event owner ends event
+* User receives participation confirmation badge
+
+Badge includes:
+
+* Event name
+* Event date
+* Confirmation of attendance
+
+Only one badge per user per event.
+
+Badge remains permanently visible in profile.
+
+---
+
+# 8. Event Relationship Logic
+
+For each event:
+
+If user.created_event_id = event.id
+→ User is owner of that event.
+
+If user joined event
+→ User is participant in that event.
+
+Ownership and participation are event-scoped.
+
+A user may:
+
+* Own Event A
+* Participate in Event B
+* Do both in different events
+
+---
+
+# 9. Navigation Model
+
+Main app navigation:
+
+* Home (Discover Events)
+* My Events
+
+  * Created Events
+  * Joined Events
+* Create Event
+* Profile (Badges, Account)
+
+Inside an event:
+
+If user is owner:
+
+* Manage Event
+* Missions
+* Rewards
+* Engagement Dashboard
+* End Event
+
+If user is participant:
+
+* Missions
+* Wallet
+* Rewards
+* Leaderboard
+* Badge
+
+If user is both (owner joined own event):
+
+* Both management and participation views available.
+
+---
+
+# 10. Participation Badge Rules
+
+* Issued only after event ends
+* One per user per event
+* Cannot be duplicated
+* Permanent
+* Represents confirmed participation
+
+Only used for participation confirmation.
+
+No other features depend on blockchain.
+
+---
+
+# 11. Product Philosophy
+
+NOMAD is:
+
+* Event-scoped permission based
+* Flexible
+* Not role rigid
+* Designed for both student-led events, hackathons and huge sponsor based events
+* Built for real-world participation
+* Structured but not gamified excessively
+
+Users fluidly move between creating and joining events.
+
+No artificial role separation.
+
+---
+
+# 12. Summary
+
+NOMAD allows:
+
+Users to:
+
+* Create events
+* Join events
+* Participate
+* Manage events they created
+* Earn tokens
+* Redeem rewards
+* Receive participation confirmation badges

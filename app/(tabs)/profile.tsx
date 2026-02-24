@@ -4,13 +4,14 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
+import { COLORS } from '@/constants/colors';
 import { useAuth } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
   const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   const handleLogout = async () => {
     Alert.alert(
@@ -38,7 +39,10 @@ export default function ProfileScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+      headerBackgroundColor={{ 
+        light: COLORS.header.profile.light, 
+        dark: COLORS.header.profile.dark 
+      }}
       headerImage={
         <IconSymbol
           size={200}
@@ -48,26 +52,44 @@ export default function ProfileScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Profile</ThemedText>
+        <ThemedText type="title" style={{ color: isDark ? COLORS.text.dark.heading : COLORS.text.light.heading }}>
+          Profile
+        </ThemedText>
       </ThemedView>
       
       <ThemedView style={styles.contentContainer}>
-        <ThemedText type="subtitle">Account Information</ThemedText>
+        <ThemedText type="subtitle" style={{ color: isDark ? COLORS.text.dark.subheading : COLORS.text.light.subheading }}>
+          Account Information
+        </ThemedText>
         
         <ThemedView style={styles.infoContainer}>
-          <ThemedText type="defaultSemiBold">Email:</ThemedText>
-          <ThemedText>{user?.email || 'Not available'}</ThemedText>
+          <ThemedText type="defaultSemiBold" style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
+            Email:
+          </ThemedText>
+          <ThemedText style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
+            {user?.email || 'Not available'}
+          </ThemedText>
         </ThemedView>
 
+        <ThemedView style={styles.infoContainer}>
+          <ThemedText type="defaultSemiBold" style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
+            User ID:
+          </ThemedText>
+          <ThemedText style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
+            {user?.uid || 'Not available'}
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
 
       <TouchableOpacity
         style={[
           styles.logoutButton,
-          { backgroundColor: Colors[colorScheme ?? 'light'].tint },
+          { backgroundColor: COLORS.button.dangerBackground },
         ]}
         onPress={handleLogout}>
-        <ThemedText style={styles.logoutButtonText}>Sign Out</ThemedText>
+        <ThemedText style={[styles.logoutButtonText, { color: COLORS.button.dangerText }]}>
+          Sign Out
+        </ThemedText>
       </TouchableOpacity>
     </ParallaxScrollView>
   );
@@ -101,7 +123,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   logoutButtonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
