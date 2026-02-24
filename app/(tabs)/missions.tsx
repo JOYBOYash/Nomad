@@ -5,25 +5,25 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
-export default function ExploreScreen() {
+export default function MissionsScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+      headerBackgroundColor={{ light: '#E8D5B7', dark: '#4A3F35' }}
       headerImage={
         <IconSymbol
           size={200}
           color="#808080"
-          name="paperplane.fill"
+          name="target"
           style={styles.headerImage}
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">Missions</ThemedText>
       </ThemedView>
       <ThemedView style={styles.contentContainer}>
-        <ThemedText type="subtitle">Discover New Places</ThemedText>
+        <ThemedText type="subtitle">Your Event Goals</ThemedText>
         <ThemedText>
-          Explore Events, find hidden gems, and plan your next Live-Offline adventure with Nomad.
+          Track your event-wise missions, complete challenges, and earn rewards as you explore the Live-Offline world.
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
