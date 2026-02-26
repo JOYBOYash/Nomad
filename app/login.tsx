@@ -1,6 +1,7 @@
 import { COLORS } from '@/constants/colors';
 import { useAuth } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
     ActivityIndicator,
@@ -20,8 +21,9 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -46,6 +48,17 @@ export default function LoginScreen() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    try {
+      await signInWithGoogle();
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Google Sign-In failed');
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   const backgroundColor = isDark ? COLORS.background.dark : COLORS.background.light;
   const textColor = isDark ? COLORS.text.dark.body : COLORS.text.light.body;
   const headingColor = isDark ? COLORS.text.dark.heading : COLORS.text.light.heading;
@@ -65,6 +78,33 @@ export default function LoginScreen() {
             {isSignUp ? 'Sign up to start your journey' : 'Sign in to continue your adventure'}
           </Text>
 
+          {/* Google Sign In Button */}
+          <TouchableOpacity
+            style={styles.googleButton}
+            onPress={handleGoogleSignIn}
+            disabled={googleLoading}>
+            {googleLoading ? (
+              <ActivityIndicator color="#757575" />
+            ) : (
+              <>
+                <View style={styles.googleIconContainer}>
+                  <MaterialIcons name="login" size={20} color="#757575" />
+                </View>
+                <Text style={styles.googleButtonText}>
+                  Continue with Google
+                </Text>
+              </>
+            )}
+          </TouchableOpacity>
+
+          {/* Divider */}
+          <View style={styles.dividerContainer}>
+            <View style={[styles.divider, { backgroundColor: isDark ? '#3A3A3C' : '#E5E5EA' }]} />
+            <Text style={[styles.dividerText, { color: textColor }]}>or</Text>
+            <View style={[styles.divider, { backgroundColor: isDark ? '#3A3A3C' : '#E5E5EA' }]} />
+          </View>
+
+          {/* Email/Password Form */}
           <View style={styles.inputContainer}>
             <Text style={[styles.label, { color: textColor }]}>Email</Text>
             <TextInput
@@ -156,6 +196,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 32,
     textAlign: 'center',
+  },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#DADCE0',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  googleIconContainer: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  googleButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#757575',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    fontSize: 14,
+    fontWeight: '500',
   },
   inputContainer: {
     marginBottom: 16,

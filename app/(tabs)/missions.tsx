@@ -11,9 +11,7 @@ export default function MissionsScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const textColor = isDark ? COLORS.text.dark.body : COLORS.text.light.body;
   const headingColor = isDark ? COLORS.text.dark.heading : COLORS.text.light.heading;
-  const subheadingColor = isDark ? COLORS.text.dark.subheading : COLORS.text.light.subheading;
 
   return (
     <ParallaxScrollView
@@ -29,35 +27,9 @@ export default function MissionsScreen() {
           style={styles.headerImage}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView style={styles.container}>
         <ThemedText type="title" style={{ color: headingColor }}>
           Missions
-        </ThemedText>
-      </ThemedView>
-      
-      <ThemedText style={[styles.description, { color: textColor }]}>
-        Complete travel challenges and earn rewards on your journey.
-      </ThemedText>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle" style={{ color: subheadingColor }}>
-          Active Missions
-        </ThemedText>
-        <ThemedText style={{ color: textColor }}>
-          • Visit 3 new countries{'\n'}
-          • Try 5 local cuisines{'\n'}
-          • Take 10 photos at landmarks{'\n'}
-          • Meet 2 fellow travelers
-        </ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle" style={{ color: subheadingColor }}>
-          Completed
-        </ThemedText>
-        <ThemedText style={{ color: textColor }}>
-          • Create your Nomad profile ✓{'\n'}
-          • Set your first destination ✓
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
@@ -65,24 +37,14 @@ export default function MissionsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    gap: 8,
+    marginBottom: 8,
+  },
   headerImage: {
     color: '#808080',
     bottom: -90,
     left: -35,
     position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 16,
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 24,
-    lineHeight: 24,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
   },
 });

@@ -7,11 +7,15 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { COLORS } from '@/constants/colors';
 import { useAuth } from '@/context/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+
+  const textColor = isDark ? COLORS.text.dark.body : COLORS.text.light.body;
+  const headingColor = isDark ? COLORS.text.dark.heading : COLORS.text.light.heading;
 
   const handleLogout = async () => {
     Alert.alert(
@@ -51,34 +55,13 @@ export default function ProfileScreen() {
           style={styles.headerImage}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={{ color: isDark ? COLORS.text.dark.heading : COLORS.text.light.heading }}>
+      <ThemedView style={styles.container}>
+        <ThemedText type="title" style={{ color: headingColor }}>
           Profile
         </ThemedText>
-      </ThemedView>
-      
-      <ThemedView style={styles.contentContainer}>
-        <ThemedText type="subtitle" style={{ color: isDark ? COLORS.text.dark.subheading : COLORS.text.light.subheading }}>
-          Account Information
+        <ThemedText style={[styles.emailText, { color: textColor }]}>
+          {user?.email || 'No email'}
         </ThemedText>
-        
-        <ThemedView style={styles.infoContainer}>
-          <ThemedText type="defaultSemiBold" style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
-            Email:
-          </ThemedText>
-          <ThemedText style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
-            {user?.email || 'Not available'}
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedView style={styles.infoContainer}>
-          <ThemedText type="defaultSemiBold" style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
-            User ID:
-          </ThemedText>
-          <ThemedText style={{ color: isDark ? COLORS.text.dark.body : COLORS.text.light.body }}>
-            {user?.uid || 'Not available'}
-          </ThemedText>
-        </ThemedView>
       </ThemedView>
 
       <TouchableOpacity
@@ -87,6 +70,7 @@ export default function ProfileScreen() {
           { backgroundColor: COLORS.button.dangerBackground },
         ]}
         onPress={handleLogout}>
+        <MaterialIcons name="logout" size={20} color={COLORS.button.dangerText} />
         <ThemedText style={[styles.logoutButtonText, { color: COLORS.button.dangerText }]}>
           Sign Out
         </ThemedText>
@@ -96,31 +80,27 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    gap: 8,
+    marginBottom: 8,
+  },
+  emailText: {
+    fontSize: 16,
+  },
   headerImage: {
     color: '#808080',
     bottom: -50,
     left: 35,
     position: 'absolute',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 16,
-  },
-  contentContainer: {
-    gap: 8,
-    marginBottom: 24,
-  },
-  infoContainer: {
-    gap: 4,
-    marginBottom: 12,
-  },
   logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 48,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
+    marginTop: 24,
+    gap: 8,
   },
   logoutButtonText: {
     fontSize: 16,
